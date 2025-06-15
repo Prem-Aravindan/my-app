@@ -1,12 +1,8 @@
 # EAS ignore file - exclude unnecessary files from build archive
 
 # Dependencies and build outputs
-node_modules/
 .git/
 .expo/
-android/build/
-android/app/build/
-ios/build/
 .DS_Store
 *.log
 *.tmp
