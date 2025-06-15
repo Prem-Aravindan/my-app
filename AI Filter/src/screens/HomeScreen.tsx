@@ -20,7 +20,9 @@ type HomeScreenNavigationProp = NavigationProp<BottomTabParamList, 'Home'>;
 
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const [detectionHistory, setDetectionHistory] = useState<(DetectionResult & { uploaded_media?: any })[]>([]);
+  const [detectionHistory, setDetectionHistory] = useState<
+    (DetectionResult & { uploaded_media?: any })[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const fadeAnim = useState(new Animated.Value(0))[0];
@@ -28,7 +30,7 @@ export const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     loadDetectionHistory();
-    
+
     // Animate screen entrance
     Animated.parallel([
       Animated.timing(fadeAnim, {
@@ -73,18 +75,24 @@ export const HomeScreen: React.FC = () => {
     );
   }
 
-  const renderDetectionCard = ({ item }: { item: DetectionResult & { uploaded_media?: any } }) => (
+  const renderDetectionCard = ({
+    item,
+  }: {
+    item: DetectionResult & { uploaded_media?: any };
+  }) => (
     <DetectionCard
       result={item}
-      media={item.uploaded_media || {
-        id: item.media_id,
-        file_type: 'image',
-        file_name: 'Unknown file',
-        file_size: 0,
-        file_url: 'https://picsum.photos/seed/picsum/200/300',
-        user_id: 'unknown',
-        uploaded_at: item.created_at,
-      }}
+      media={
+        item.uploaded_media || {
+          id: item.media_id,
+          file_type: 'image',
+          file_name: 'Unknown file',
+          file_size: 0,
+          file_url: 'https://picsum.photos/seed/picsum/200/300',
+          user_id: 'unknown',
+          uploaded_at: item.created_at,
+        }
+      }
       onPress={() => {
         // Navigate to result detail screen
         console.log('Navigate to result:', item.id);
@@ -93,7 +101,7 @@ export const HomeScreen: React.FC = () => {
   );
 
   const renderEmptyState = () => (
-    <Animated.View 
+    <Animated.View
       style={[
         styles.emptyState,
         {
@@ -120,23 +128,58 @@ export const HomeScreen: React.FC = () => {
 
   // Calculate stats
   const totalDetections = detectionHistory.length;
-  const aiGenerated = detectionHistory.filter(item => item.is_ai_generated).length;
+  const aiGenerated = detectionHistory.filter(
+    (item) => item.is_ai_generated
+  ).length;
   const humanGenerated = totalDetections - aiGenerated;
-  const avgConfidence = totalDetections > 0 
-    ? Math.round(detectionHistory.reduce((sum, item) => sum + item.confidence_level, 0) / totalDetections)
-    : 0;
+  const avgConfidence =
+    totalDetections > 0
+      ? Math.round(
+          detectionHistory.reduce(
+            (sum, item) => sum + item.confidence_level,
+            0
+          ) / totalDetections
+        )
+      : 0;
   return (
     <SafeAreaView style={styles.container}>
       {/* Background Gradient */}
       <View style={styles.backgroundGradient} />
-      
+
       {/* Animated Orbs */}
-      <Animated.View style={[styles.orb, styles.orb1, { transform: [{ translateY: slideAnim }] }]} />
-      <Animated.View style={[styles.orb, styles.orb2, { transform: [{ translateX: slideAnim }] }]} />
-      <Animated.View style={[styles.orb, styles.orb3, { transform: [{ translateY: slideAnim.interpolate({ inputRange: [0, 50], outputRange: [0, -25] }) }] }]} />
-      
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb1,
+          { transform: [{ translateY: slideAnim }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb2,
+          { transform: [{ translateX: slideAnim }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb3,
+          {
+            transform: [
+              {
+                translateY: slideAnim.interpolate({
+                  inputRange: [0, 50],
+                  outputRange: [0, -25],
+                }),
+              },
+            ],
+          },
+        ]}
+      />
+
       <View style={styles.content}>
-        <Animated.View 
+        <Animated.View
           style={[
             styles.header,
             {
@@ -153,7 +196,7 @@ export const HomeScreen: React.FC = () => {
 
         {/* Stats Overview */}
         {detectionHistory.length > 0 && (
-          <Animated.View 
+          <Animated.View
             style={[
               styles.statsContainer,
               {
@@ -168,15 +211,21 @@ export const HomeScreen: React.FC = () => {
                 <Text style={styles.statLabel}>Total</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={[styles.statNumber, { color: '#FF6B6B' }]}>{aiGenerated}</Text>
+                <Text style={[styles.statNumber, { color: '#FF6B6B' }]}>
+                  {aiGenerated}
+                </Text>
                 <Text style={styles.statLabel}>AI</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={[styles.statNumber, { color: '#4ECDC4' }]}>{humanGenerated}</Text>
+                <Text style={[styles.statNumber, { color: '#4ECDC4' }]}>
+                  {humanGenerated}
+                </Text>
                 <Text style={styles.statLabel}>Real</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={[styles.statNumber, { color: '#45B7D1' }]}>{avgConfidence}%</Text>
+                <Text style={[styles.statNumber, { color: '#45B7D1' }]}>
+                  {avgConfidence}%
+                </Text>
                 <Text style={styles.statLabel}>Avg Confidence</Text>
               </View>
             </View>
@@ -184,7 +233,7 @@ export const HomeScreen: React.FC = () => {
         )}
 
         {/* Detection History */}
-        <Animated.View 
+        <Animated.View
           style={[
             styles.content,
             {
@@ -213,7 +262,8 @@ export const HomeScreen: React.FC = () => {
                   />
                 }
               />
-            </>          )}
+            </>
+          )}
         </Animated.View>
       </View>
     </SafeAreaView>
@@ -224,7 +274,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0A0A0F',
-  },  backgroundGradient: {
+  },
+  backgroundGradient: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -256,10 +307,12 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: '#06B6D4',
     top: 300,
-    right: 50,  },
+    right: 50,
+  },
   safeArea: {
     flex: 1,
-  },  header: {
+  },
+  header: {
     paddingHorizontal: 12,
     paddingTop: 60,
     paddingBottom: 16,
@@ -283,7 +336,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
     letterSpacing: 0.2,
-  },  statsContainer: {
+  },
+  statsContainer: {
     marginHorizontal: 12,
     marginBottom: 24,
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
@@ -311,7 +365,8 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.6)',
     fontWeight: '500',
     textAlign: 'center',
-  },  content: {
+  },
+  content: {
     flex: 1,
     paddingHorizontal: 12,
     paddingTop: 20,

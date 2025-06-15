@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { Button } from './Button';
-import { DetectionResponse, LocalAIDetectionService } from '../services/localAIDetection';
+import {
+  DetectionResponse,
+  LocalAIDetectionService,
+} from '../services/localAIDetection';
 
 interface AIDetectionResultsProps {
   result: DetectionResponse;
@@ -14,19 +17,29 @@ export const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({
   onAnalyzeAnother,
   fadeAnim,
 }) => {
-  const predictionColor = LocalAIDetectionService.getPredictionColor(result.prediction);
-  const predictionIcon = LocalAIDetectionService.getPredictionIcon(result.prediction);
-  const confidencePercentage = LocalAIDetectionService.formatConfidence(result.confidence);
+  const predictionColor = LocalAIDetectionService.getPredictionColor(
+    result.prediction
+  );
+  const predictionIcon = LocalAIDetectionService.getPredictionIcon(
+    result.prediction
+  );
+  const confidencePercentage = LocalAIDetectionService.formatConfidence(
+    result.confidence
+  );
 
-  const containerStyle = fadeAnim ? {
-    opacity: fadeAnim,
-    transform: [{
-      translateY: fadeAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [20, 0],
-      }),
-    }],
-  } : {};
+  const containerStyle = fadeAnim
+    ? {
+        opacity: fadeAnim,
+        transform: [
+          {
+            translateY: fadeAnim.interpolate({
+              inputRange: [0, 1],
+              outputRange: [20, 0],
+            }),
+          },
+        ],
+      }
+    : {};
 
   return (
     <Animated.View style={[styles.container, containerStyle]}>
@@ -43,36 +56,40 @@ export const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({
           <Text style={[styles.confidenceValue, { color: predictionColor }]}>
             {confidencePercentage}
           </Text>
-          
+
           {/* Progress Bar */}
           <View style={styles.progressBarContainer}>
-            <View 
+            <View
               style={[
-                styles.progressBar, 
-                { 
+                styles.progressBar,
+                {
                   width: `${result.confidence * 100}%`,
                   backgroundColor: predictionColor,
-                }
-              ]} 
+                },
+              ]}
             />
           </View>
         </View>
 
         <View style={styles.scoresSection}>
           <Text style={styles.scoresTitle}>Detailed Scores</Text>
-          
+
           <View style={styles.scoreRow}>
             <View style={styles.scoreItem}>
               <Text style={styles.scoreLabel}>🤖 AI-Generated</Text>
               <Text style={[styles.scoreValue, { color: '#FF6B6B' }]}>
-                {LocalAIDetectionService.formatConfidence(result.raw_scores.ai_generated)}
+                {LocalAIDetectionService.formatConfidence(
+                  result.raw_scores.ai_generated
+                )}
               </Text>
             </View>
-            
+
             <View style={styles.scoreItem}>
               <Text style={styles.scoreLabel}>✅ Real Image</Text>
               <Text style={[styles.scoreValue, { color: '#51CF66' }]}>
-                {LocalAIDetectionService.formatConfidence(result.raw_scores.real)}
+                {LocalAIDetectionService.formatConfidence(
+                  result.raw_scores.real
+                )}
               </Text>
             </View>
           </View>
@@ -80,10 +97,9 @@ export const AIDetectionResults: React.FC<AIDetectionResultsProps> = ({
 
         <View style={styles.explanationSection}>
           <Text style={styles.explanation}>
-            {result.prediction === 'AI-generated' 
+            {result.prediction === 'AI-generated'
               ? 'This image appears to be artificially generated. The AI model detected patterns and characteristics commonly found in AI-generated content.'
-              : 'This image appears to be authentic. The AI model detected natural patterns and characteristics typical of real photographs.'
-            }
+              : 'This image appears to be authentic. The AI model detected natural patterns and characteristics typical of real photographs.'}
           </Text>
         </View>
 

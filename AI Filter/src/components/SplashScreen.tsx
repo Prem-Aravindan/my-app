@@ -5,7 +5,9 @@ interface SplashScreenProps {
   onAnimationComplete: () => void;
 }
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete }) => {
+export const SplashScreen: React.FC<SplashScreenProps> = ({
+  onAnimationComplete,
+}) => {
   const logoScale = useRef(new Animated.Value(0)).current;
   const logoOpacity = useRef(new Animated.Value(0)).current;
   const titleTranslateY = useRef(new Animated.Value(30)).current;
@@ -18,7 +20,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
     // Logo animation
     Animated.parallel([
       Animated.timing(logoScale, {
-        toValue: 1,        duration: 800,
+        toValue: 1,
+        duration: 800,
         delay: 200,
         easing: Easing.out(Easing.exp),
         useNativeDriver: true,
@@ -35,7 +38,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
     setTimeout(() => {
       Animated.parallel([
         Animated.timing(titleTranslateY, {
-          toValue: 0,          duration: 600,
+          toValue: 0,
+          duration: 600,
           easing: Easing.out(Easing.exp),
           useNativeDriver: true,
         }),
@@ -51,7 +55,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
     setTimeout(() => {
       Animated.parallel([
         Animated.timing(subtitleTranslateY, {
-          toValue: 0,          duration: 500,
+          toValue: 0,
+          duration: 500,
           easing: Easing.out(Easing.exp),
           useNativeDriver: true,
         }),
@@ -77,41 +82,41 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Animated.View 
+        <Animated.View
           style={[
             styles.logoContainer,
             {
               transform: [{ scale: logoScale }],
               opacity: logoOpacity,
-            }
+            },
           ]}
         >
-          <Image 
-            source={require('../../assets/bot.png')} 
+          <Image
+            source={require('../../assets/bot.png')}
             style={styles.logoImage}
             resizeMode="contain"
           />
         </Animated.View>
-        
-        <Animated.Text 
+
+        <Animated.Text
           style={[
             styles.title,
             {
               transform: [{ translateY: titleTranslateY }],
               opacity: titleOpacity,
-            }
+            },
           ]}
         >
           AI Filter
         </Animated.Text>
-        
-        <Animated.Text 
+
+        <Animated.Text
           style={[
             styles.subtitle,
             {
               transform: [{ translateY: subtitleTranslateY }],
               opacity: subtitleOpacity,
-            }
+            },
           ]}
         >
           Detect AI-generated content with confidence
@@ -131,20 +136,44 @@ const LoadingDots: React.FC = () => {
   useEffect(() => {
     const animateDots = () => {
       const animation = Animated.sequence([
-        Animated.timing(dot1Opacity, { toValue: 1, duration: 300, useNativeDriver: true }),
-        Animated.timing(dot1Opacity, { toValue: 0.5, duration: 300, useNativeDriver: true }),
+        Animated.timing(dot1Opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(dot1Opacity, {
+          toValue: 0.5,
+          duration: 300,
+          useNativeDriver: true,
+        }),
       ]);
 
       const animation2 = Animated.sequence([
         Animated.delay(200),
-        Animated.timing(dot2Opacity, { toValue: 1, duration: 300, useNativeDriver: true }),
-        Animated.timing(dot2Opacity, { toValue: 0.5, duration: 300, useNativeDriver: true }),
+        Animated.timing(dot2Opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(dot2Opacity, {
+          toValue: 0.5,
+          duration: 300,
+          useNativeDriver: true,
+        }),
       ]);
 
       const animation3 = Animated.sequence([
         Animated.delay(400),
-        Animated.timing(dot3Opacity, { toValue: 1, duration: 300, useNativeDriver: true }),
-        Animated.timing(dot3Opacity, { toValue: 0.5, duration: 300, useNativeDriver: true }),
+        Animated.timing(dot3Opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(dot3Opacity, {
+          toValue: 0.5,
+          duration: 300,
+          useNativeDriver: true,
+        }),
       ]);
 
       Animated.parallel([animation, animation2, animation3]).start(() => {
@@ -188,7 +217,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
-  },  logoImage: {
+  },
+  logoImage: {
     width: 60,
     height: 60,
   },

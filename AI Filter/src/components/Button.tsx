@@ -23,27 +23,28 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   variant = 'primary',
   size = 'medium',
-}) => {  const getButtonStyle = () => {
+}) => {
+  const getButtonStyle = () => {
     const baseStyle: any[] = [styles.button, styles[size]];
-    
+
     if (disabled || loading) {
       baseStyle.push(styles.disabled);
     } else {
       baseStyle.push(styles[variant]);
     }
-    
+
     return baseStyle;
   };
 
   const getTextStyle = () => {
     const baseStyle: any[] = [styles.text, styles[`${size}Text`]];
-    
+
     if (variant === 'secondary') {
       baseStyle.push(styles.secondaryText);
     } else {
       baseStyle.push(styles.primaryText);
     }
-    
+
     return baseStyle;
   };
 
@@ -62,9 +63,7 @@ export const Button: React.FC<ButtonProps> = ({
             style={styles.loader}
           />
         )}
-        <Text style={getTextStyle()}>
-          {loading ? 'Loading...' : title}
-        </Text>
+        <Text style={getTextStyle()}>{loading ? 'Loading...' : title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: -0.2,
   },
-  
+
   // Sizes
   small: {
     paddingHorizontal: 20,
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     minHeight: 60,
   },
-  
+
   // Text sizes
   smallText: {
     fontSize: 15,
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
   largeText: {
     fontSize: 19,
   },
-  
+
   // Variants
   primary: {
     backgroundColor: 'rgba(99, 102, 241, 0.9)',
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     elevation: 0,
   },
-  
+
   // Text colors
   primaryText: {
     color: '#FFFFFF',

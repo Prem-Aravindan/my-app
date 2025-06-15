@@ -8,7 +8,7 @@ export class AuthService {
         email,
         password,
       });
-      
+
       if (error) throw error;
       return { user: data.user, error: null };
     } catch (error) {
@@ -23,7 +23,7 @@ export class AuthService {
         email,
         password,
       });
-      
+
       if (error) throw error;
       return { user: data.user, error: null };
     } catch (error) {
@@ -45,7 +45,9 @@ export class AuthService {
 
   static async getCurrentUser(): Promise<User | null> {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       return user as User | null;
     } catch (error) {
       console.error('Get current user error:', error);

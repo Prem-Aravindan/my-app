@@ -11,9 +11,11 @@ export class MediaService {
     }
   }
 
-  static async pickImage(options: MediaPickerOptions = { mediaTypes: 'Images' }) {
+  static async pickImage(
+    options: MediaPickerOptions = { mediaTypes: 'Images' }
+  ) {
     await this.requestPermissions();
-    
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions[options.mediaTypes],
       allowsEditing: options.allowsEditing ?? true,
@@ -38,7 +40,10 @@ export class MediaService {
     }
     return null;
   }
-  static async uploadFile(file: any, userId: string): Promise<UploadedMedia | null> {
+  static async uploadFile(
+    file: any,
+    userId: string
+  ): Promise<UploadedMedia | null> {
     try {
       // For development/testing, create mock upload without actual database operations
       if (userId === 'test-user-123') {
@@ -61,9 +66,9 @@ export class MediaService {
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('media-files')
-        .getPublicUrl(filePath);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from('media-files').getPublicUrl(filePath);
 
       // Save metadata to database
       const mediaData = {
@@ -101,7 +106,9 @@ export class MediaService {
     };
   }
 
-  private static getFileType(mimeType: string): 'image' | 'audio' | 'video' | 'text' {
+  private static getFileType(
+    mimeType: string
+  ): 'image' | 'audio' | 'video' | 'text' {
     if (mimeType.startsWith('image/')) return 'image';
     if (mimeType.startsWith('audio/')) return 'audio';
     if (mimeType.startsWith('video/')) return 'video';

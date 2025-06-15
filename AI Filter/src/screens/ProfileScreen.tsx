@@ -38,27 +38,63 @@ export const ProfileScreen: React.FC = () => {
   const handleGetStarted = () => {
     // Pulse animation for button press
     Animated.sequence([
-      Animated.timing(fadeAnim, { toValue: 0.8, duration: 100, useNativeDriver: true }),
-      Animated.timing(fadeAnim, { toValue: 1, duration: 100, useNativeDriver: true }),
+      Animated.timing(fadeAnim, {
+        toValue: 0.8,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
     ]).start();
-    
+
     console.log('Get started with AI detection!');
   };
 
   const handleLearnMore = () => {
     console.log('Learn more about AI detection');
-  };  return (
+  };
+  return (
     <SafeAreaView style={styles.container}>
       {/* Background Gradient */}
       <View style={styles.backgroundGradient} />
-      
+
       {/* Animated Orbs */}
-      <Animated.View style={[styles.orb, styles.orb1, { transform: [{ translateY: slideAnim }] }]} />
-      <Animated.View style={[styles.orb, styles.orb2, { transform: [{ translateX: slideAnim }] }]} />
-      <Animated.View style={[styles.orb, styles.orb3, { transform: [{ translateY: slideAnim.interpolate({ inputRange: [0, 30], outputRange: [0, -15] }) }] }]} />
-      
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb1,
+          { transform: [{ translateY: slideAnim }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb2,
+          { transform: [{ translateX: slideAnim }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb3,
+          {
+            transform: [
+              {
+                translateY: slideAnim.interpolate({
+                  inputRange: [0, 30],
+                  outputRange: [0, -15],
+                }),
+              },
+            ],
+          },
+        ]}
+      />
+
       <View style={styles.safeContent}>
-        <Animated.View 
+        <Animated.View
           style={[
             styles.content,
             {
@@ -67,82 +103,81 @@ export const ProfileScreen: React.FC = () => {
             },
           ]}
         >
-        <View style={styles.profileHeader}>
-          <Animated.View 
-            style={[
-              styles.avatar,
-              animationComplete && {
-                transform: [
-                  {
-                    rotate: fadeAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['0deg', '360deg'],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          >
-            <Image 
-              source={require('../../assets/bot.png')} 
-              style={styles.avatarImage}
-              resizeMode="contain"
+          <View style={styles.profileHeader}>
+            <Animated.View
+              style={[
+                styles.avatar,
+                animationComplete && {
+                  transform: [
+                    {
+                      rotate: fadeAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ['0deg', '360deg'],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Image
+                source={require('../../assets/bot.png')}
+                style={styles.avatarImage}
+                resizeMode="contain"
+              />
+            </Animated.View>
+
+            <Text style={styles.welcomeTitle}>Welcome to AI Filter!</Text>
+            <Text style={styles.welcomeSubtitle}>
+              Your AI content detection companion
+            </Text>
+          </View>
+          <View style={styles.featuresContainer}>
+            <FeatureItem
+              icon="🔍"
+              title="Smart Detection"
+              description="Advanced AI algorithms to detect generated content"
+              delay={200}
             />
-          </Animated.View>
-          
-          <Text style={styles.welcomeTitle}>Welcome to AI Filter!</Text>
-          <Text style={styles.welcomeSubtitle}>
-            Your AI content detection companion
-          </Text>
-        </View>
+            <FeatureItem
+              icon="📊"
+              title="Confidence Scores"
+              description="Get detailed confidence levels for each analysis"
+              delay={400}
+            />
+            <FeatureItem
+              icon="🚀"
+              title="Fast & Secure"
+              description="Quick processing with your privacy protected"
+              delay={600}
+            />
+          </View>
+          <View style={styles.actionButtons}>
+            <Button
+              title="🎯 Start Detecting"
+              onPress={handleGetStarted}
+              variant="primary"
+              size="large"
+            />
 
-        <View style={styles.featuresContainer}>
-          <FeatureItem 
-            icon="🔍" 
-            title="Smart Detection"
-            description="Advanced AI algorithms to detect generated content"
-            delay={200}
-          />
-          <FeatureItem 
-            icon="📊" 
-            title="Confidence Scores"
-            description="Get detailed confidence levels for each analysis"
-            delay={400}
-          />
-          <FeatureItem 
-            icon="🚀" 
-            title="Fast & Secure"
-            description="Quick processing with your privacy protected"
-            delay={600}
-          />
-        </View>
+            <View style={styles.spacing} />
 
-        <View style={styles.actionButtons}>
-          <Button
-            title="🎯 Start Detecting"
-            onPress={handleGetStarted}
-            variant="primary"
-            size="large"
-          />
-          
-          <View style={styles.spacing} />
-          
-          <Button
-            title="📚 Learn More"
-            onPress={handleLearnMore}
-            variant="secondary"
-            size="medium"
-          />
-        </View>
-
-        <View style={styles.appInfo}>
-          <Text style={styles.appInfoTitle}>About AI Filter</Text>
-          <Text style={styles.appInfoText}>
-            AI Filter helps you detect AI-generated content with advanced 
-            machine learning algorithms. Upload images, videos, audio, or 
-            text to get instant analysis with confidence scores.
-          </Text>
-          <Text style={styles.version}>Version 1.0.0</Text>        </View>        </Animated.View>
+            <Button
+              title="📚 Learn More"
+              onPress={handleLearnMore}
+              variant="secondary"
+              size="medium"
+            />
+          </View>
+          <View style={styles.appInfo}>
+            <Text style={styles.appInfoTitle}>About AI Filter</Text>
+            <Text style={styles.appInfoText}>
+              AI Filter helps you detect AI-generated content with advanced
+              machine learning algorithms. Upload images, videos, audio, or text
+              to get instant analysis with confidence scores.
+            </Text>
+            <Text style={styles.version}>Version 1.0.0</Text>{' '}
+          </View>{' '}
+        </Animated.View>
       </View>
     </SafeAreaView>
   );
@@ -155,7 +190,12 @@ interface FeatureItemProps {
   delay: number;
 }
 
-const FeatureItem: React.FC<FeatureItemProps> = ({ icon, title, description, delay }) => {
+const FeatureItem: React.FC<FeatureItemProps> = ({
+  icon,
+  title,
+  description,
+  delay,
+}) => {
   const itemFadeAnim = useState(new Animated.Value(0))[0];
   const itemSlideAnim = useState(new Animated.Value(20))[0];
 
@@ -177,7 +217,7 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ icon, title, description, del
   }, [delay]);
 
   return (
-    <Animated.View 
+    <Animated.View
       style={[
         styles.featureItem,
         {
@@ -233,20 +273,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#06B6D4',
     top: '35%',
     right: '15%',
-  },  safeArea: {
+  },
+  safeArea: {
     flex: 1,
-  },  safeContent: {
+  },
+  safeContent: {
     flex: 1,
     paddingTop: 20,
-  },content: {
+  },
+  content: {
     flex: 1,
     padding: 16,
     paddingTop: 20,
-  },  profileHeader: {
+  },
+  profileHeader: {
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 20,
     padding: 20,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -255,7 +300,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 40,
     elevation: 10,
-  },  avatar: {
+  },
+  avatar: {
     width: 70,
     height: 70,
     borderRadius: 35,
@@ -270,7 +316,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 16,
     elevation: 8,
-  },  avatarImage: {
+  },
+  avatarImage: {
     width: 40,
     height: 40,
   },
@@ -287,12 +334,14 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.7)',
     textAlign: 'center',
     fontWeight: '500',
-  },  featuresContainer: {
+  },
+  featuresContainer: {
     marginBottom: 24,
   },
   featureItem: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
@@ -302,7 +351,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 16,
     elevation: 6,
-  },  featureIcon: {
+  },
+  featureIcon: {
     fontSize: 24,
     marginRight: 16,
     alignSelf: 'flex-start',
@@ -322,7 +372,8 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.7)',
     lineHeight: 18,
     fontWeight: '500',
-  },  actionButtons: {
+  },
+  actionButtons: {
     marginBottom: 20,
   },
   spacing: {
@@ -339,7 +390,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 16,
     elevation: 6,
-  },  appInfoTitle: {
+  },
+  appInfoTitle: {
     fontSize: 16,
     fontWeight: '700',
     color: '#FFFFFF',

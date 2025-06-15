@@ -15,7 +15,10 @@ import { Button } from '../components/Button';
 import { AIDetectionResults } from '../components/AIDetectionResults';
 import { MediaService } from '../services/media';
 import { AIDetectionService } from '../services/aiDetection';
-import { LocalAIDetectionService, DetectionResponse } from '../services/localAIDetection';
+import {
+  LocalAIDetectionService,
+  DetectionResponse,
+} from '../services/localAIDetection';
 import { UploadedMedia } from '../types';
 import { formatFileSize, getFileTypeIcon } from '../utils/helpers';
 
@@ -23,12 +26,13 @@ export const UploadScreen: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [uploading, setUploading] = useState(false);
   const [detecting, setDetecting] = useState(false);
-  const [detectionResult, setDetectionResult] = useState<DetectionResponse | null>(null);
+  const [detectionResult, setDetectionResult] =
+    useState<DetectionResponse | null>(null);
   const [apiHealthy, setApiHealthy] = useState<boolean | null>(null);
   const fadeAnim = useState(new Animated.Value(0))[0];
   const slideAnim = useState(new Animated.Value(30))[0];
   const resultFadeAnim = useState(new Animated.Value(0))[0];
-  
+
   useEffect(() => {
     // Animate screen entrance
     Animated.parallel([
@@ -41,7 +45,7 @@ export const UploadScreen: React.FC = () => {
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 600,
-        easing: Easing.out(Easing.quad), 
+        easing: Easing.out(Easing.quad),
         useNativeDriver: true,
       }),
     ]).start();
@@ -54,15 +58,20 @@ export const UploadScreen: React.FC = () => {
     try {
       const health = await LocalAIDetectionService.checkHealth();
       console.log('Received health data:', health); // Debug logging
-      
+
       // Consider API healthy if it responds successfully
       // Even in test mode, the API can still process requests
-      const isHealthy = health.status === 'healthy' || health.status === 'ok' || health.status === 'running';
+      const isHealthy =
+        health.status === 'healthy' ||
+        health.status === 'ok' ||
+        health.status === 'running';
       setApiHealthy(isHealthy);
-      
+
       if (!health.model_loaded && isHealthy) {
         // API is working but in test mode - this is fine for development
-        console.log('API running in test mode - this is expected for development');
+        console.log(
+          'API running in test mode - this is expected for development'
+        );
       } else if (!isHealthy) {
         Alert.alert(
           'AI Service Issue',
@@ -88,8 +97,16 @@ export const UploadScreen: React.FC = () => {
         setSelectedFile(file);
         // Animate file selection
         Animated.sequence([
-          Animated.timing(fadeAnim, { toValue: 0.7, duration: 200, useNativeDriver: true }),
-          Animated.timing(fadeAnim, { toValue: 1, duration: 200, useNativeDriver: true }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.7,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
         ]).start();
       }
     } catch (error) {
@@ -105,8 +122,16 @@ export const UploadScreen: React.FC = () => {
         setSelectedFile(file);
         // Animate file selection
         Animated.sequence([
-          Animated.timing(fadeAnim, { toValue: 0.7, duration: 200, useNativeDriver: true }),
-          Animated.timing(fadeAnim, { toValue: 1, duration: 200, useNativeDriver: true }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.7,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
         ]).start();
       }
     } catch (error) {
@@ -114,7 +139,7 @@ export const UploadScreen: React.FC = () => {
       console.error('Pick document error:', error);
     }
   };
-  
+
   const handleUploadAndDetect = async () => {
     if (!selectedFile) return;
 
@@ -130,13 +155,15 @@ export const UploadScreen: React.FC = () => {
 
     setDetecting(true);
     setDetectionResult(null);
-    
+
     try {
       // Use local AI detection API directly
-      const result = await LocalAIDetectionService.detectImage(selectedFile.uri);
-      
+      const result = await LocalAIDetectionService.detectImage(
+        selectedFile.uri
+      );
+
       setDetectionResult(result);
-      
+
       // Animate results appearance
       Animated.timing(resultFadeAnim, {
         toValue: 1,
@@ -144,14 +171,13 @@ export const UploadScreen: React.FC = () => {
         easing: Easing.out(Easing.quad),
         useNativeDriver: true,
       }).start();
-
     } catch (error) {
       console.error('AI Detection error:', error);
-      
+
       Alert.alert(
         'Detection Failed',
-        error instanceof Error 
-          ? error.message 
+        error instanceof Error
+          ? error.message
           : 'Failed to analyze the image. Please try again.',
         [{ text: 'OK' }]
       );
@@ -159,31 +185,52 @@ export const UploadScreen: React.FC = () => {
       setDetecting(false);
     }
   };
-  
+
   const clearSelection = () => {
     setSelectedFile(null);
     setDetectionResult(null);
     resultFadeAnim.setValue(0);
     // Animate clearing
     Animated.sequence([
-      Animated.timing(fadeAnim, { toValue: 0.5, duration: 200, useNativeDriver: true }),
-      Animated.timing(fadeAnim, { toValue: 1, duration: 200, useNativeDriver: true }),
+      Animated.timing(fadeAnim, {
+        toValue: 0.5,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
     ]).start();
   };
 
   const handleAnalyzeAnother = () => {
     clearSelection();
-  };  return (
+  };
+  return (
     <SafeAreaView style={styles.container}>
       {/* Background Gradient */}
       <View style={styles.backgroundGradient} />
-      
+
       {/* Animated Orbs */}
-      <Animated.View style={[styles.orb, styles.orb1, { transform: [{ translateY: slideAnim }] }]} />
-      <Animated.View style={[styles.orb, styles.orb2, { transform: [{ translateX: slideAnim }] }]} />
-      
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb1,
+          { transform: [{ translateY: slideAnim }] },
+        ]}
+      />
+      <Animated.View
+        style={[
+          styles.orb,
+          styles.orb2,
+          { transform: [{ translateX: slideAnim }] },
+        ]}
+      />
+
       <View style={styles.content}>
-        <Animated.ScrollView 
+        <Animated.ScrollView
           style={[
             styles.scrollContainer,
             {
@@ -193,139 +240,136 @@ export const UploadScreen: React.FC = () => {
           ]}
           contentContainerStyle={styles.scrollContent}
         >
-        <View style={styles.header}>
-          <Text style={styles.title}>AI Image Detection</Text>
-          <Text style={styles.subtitle}>
-            Upload an image to check if it's AI-generated
-          </Text>
-          
-          {/* API Health Indicator */}
-          <View style={styles.healthIndicator}>
-            <Text style={styles.healthIcon}>
-              {apiHealthy === null ? '⏳' : apiHealthy ? '🟢' : '🔴'}
+          <View style={styles.header}>
+            <Text style={styles.title}>AI Image Detection</Text>
+            <Text style={styles.subtitle}>
+              Upload an image to check if it's AI-generated
             </Text>
-            <Text style={styles.healthText}>
-              {apiHealthy === null 
-                ? 'Checking API...' 
-                : apiHealthy 
-                  ? 'Ready' 
-                  : 'Unavailable'
-              }
-            </Text>
-          </View>
-        </View>
 
-        {!selectedFile ? (
-          <View style={styles.uploadSection}>
-            <View style={styles.uploadOptions}>
-              <Button
-                title="📱 Select from Gallery"
-                onPress={handlePickImage}
-                variant="primary"
-                size="large"
-              />
-              
-              <View style={styles.spacing} />
-              
-              <Button
-                title="📄 Browse Files"
-                onPress={handlePickDocument}
-                variant="secondary"
-                size="large"
-              />
-            </View>
-
-            <View style={styles.supportedFormats}>
-              <Text style={styles.formatsTitle}>Supported Image Formats</Text>
-              <Text style={styles.formatsText}>
-                📷 Images: JPG, JPEG, PNG, WEBP{'\n'}
-                🤖 AI Detection: Powered by local AI model{'\n'}
-                ⚡ Fast Analysis: Results in seconds
+            {/* API Health Indicator */}
+            <View style={styles.healthIndicator}>
+              <Text style={styles.healthIcon}>
+                {apiHealthy === null ? '⏳' : apiHealthy ? '🟢' : '🔴'}
+              </Text>
+              <Text style={styles.healthText}>
+                {apiHealthy === null
+                  ? 'Checking API...'
+                  : apiHealthy
+                    ? 'Ready'
+                    : 'Unavailable'}
               </Text>
             </View>
           </View>
-        ) : (
-          <View style={styles.previewSection}>
-            <Text style={styles.previewTitle}>Selected File</Text>
-            
-            <View style={styles.filePreview}>
-              {selectedFile.mimeType?.startsWith('image/') && (
-                <Image
-                  source={{ uri: selectedFile.uri }}
-                  style={styles.imagePreview}
-                  resizeMode="cover"
+
+          {!selectedFile ? (
+            <View style={styles.uploadSection}>
+              <View style={styles.uploadOptions}>
+                <Button
+                  title="📱 Select from Gallery"
+                  onPress={handlePickImage}
+                  variant="primary"
+                  size="large"
                 />
-              )}
-              
-              <View style={styles.fileInfo}>
-                <View style={styles.fileHeader}>
-                  <Text style={styles.fileIcon}>
-                    {getFileTypeIcon(selectedFile.mimeType || 'unknown')}
-                  </Text>
-                  <View style={styles.fileDetails}>
-                    <Text style={styles.fileName} numberOfLines={2}>
-                      {selectedFile.name || 'Unknown file'}
-                    </Text>
-                    <Text style={styles.fileSize}>
-                      {formatFileSize(selectedFile.size || 0)}
-                    </Text>
-                  </View>
-                </View>
-                
-                {selectedFile.mimeType && (
-                  <Text style={styles.fileType}>
-                    Type: {selectedFile.mimeType}
-                  </Text>
-                )}
+
+                <View style={styles.spacing} />
+
+                <Button
+                  title="📄 Browse Files"
+                  onPress={handlePickDocument}
+                  variant="secondary"
+                  size="large"
+                />
+              </View>
+
+              <View style={styles.supportedFormats}>
+                <Text style={styles.formatsTitle}>Supported Image Formats</Text>
+                <Text style={styles.formatsText}>
+                  📷 Images: JPG, JPEG, PNG, WEBP{'\n'}
+                  🤖 AI Detection: Powered by local AI model{'\n'}⚡ Fast
+                  Analysis: Results in seconds
+                </Text>
               </View>
             </View>
+          ) : (
+            <View style={styles.previewSection}>
+              <Text style={styles.previewTitle}>Selected File</Text>
 
-            <View style={styles.actionButtons}>
-              <Button
-                title="🔍 Analyze Image"
-                onPress={handleUploadAndDetect}
-                loading={detecting}
-                variant="primary"
-                size="large"
-                disabled={!apiHealthy}
-              />
-              
-              <View style={styles.spacing} />
-              
-              <Button
-                title="Clear Selection"
-                onPress={clearSelection}
-                variant="secondary"
-                size="medium"
-                disabled={detecting}
-              />
+              <View style={styles.filePreview}>
+                {selectedFile.mimeType?.startsWith('image/') && (
+                  <Image
+                    source={{ uri: selectedFile.uri }}
+                    style={styles.imagePreview}
+                    resizeMode="cover"
+                  />
+                )}
+
+                <View style={styles.fileInfo}>
+                  <View style={styles.fileHeader}>
+                    <Text style={styles.fileIcon}>
+                      {getFileTypeIcon(selectedFile.mimeType || 'unknown')}
+                    </Text>
+                    <View style={styles.fileDetails}>
+                      <Text style={styles.fileName} numberOfLines={2}>
+                        {selectedFile.name || 'Unknown file'}
+                      </Text>
+                      <Text style={styles.fileSize}>
+                        {formatFileSize(selectedFile.size || 0)}
+                      </Text>
+                    </View>
+                  </View>
+
+                  {selectedFile.mimeType && (
+                    <Text style={styles.fileType}>
+                      Type: {selectedFile.mimeType}
+                    </Text>
+                  )}
+                </View>
+              </View>
+
+              <View style={styles.actionButtons}>
+                <Button
+                  title="🔍 Analyze Image"
+                  onPress={handleUploadAndDetect}
+                  loading={detecting}
+                  variant="primary"
+                  size="large"
+                  disabled={!apiHealthy}
+                />
+
+                <View style={styles.spacing} />
+
+                <Button
+                  title="Clear Selection"
+                  onPress={clearSelection}
+                  variant="secondary"
+                  size="medium"
+                  disabled={detecting}
+                />
+              </View>
+
+              {detecting && (
+                <ProcessingIndicator uploading={false} detecting={detecting} />
+              )}
+
+              {detectionResult && (
+                <AIDetectionResults
+                  result={detectionResult}
+                  onAnalyzeAnother={handleAnalyzeAnother}
+                  fadeAnim={resultFadeAnim}
+                />
+              )}
             </View>
-
-            {detecting && (
-              <ProcessingIndicator 
-                uploading={false}
-                detecting={detecting}
-              />
-            )}
-
-            {detectionResult && (
-              <AIDetectionResults
-                result={detectionResult}
-                onAnalyzeAnother={handleAnalyzeAnother}
-                fadeAnim={resultFadeAnim}
-              />
-            )}
-          </View>        )}
-      </Animated.ScrollView>
+          )}
+        </Animated.ScrollView>
       </View>
     </SafeAreaView>
   );
 };
 
-const ProcessingIndicator: React.FC<{ uploading: boolean; detecting: boolean }> = ({ 
-  uploading, 
-  detecting 
-}) => {
+const ProcessingIndicator: React.FC<{
+  uploading: boolean;
+  detecting: boolean;
+}> = ({ uploading, detecting }) => {
   const pulseAnim = useState(new Animated.Value(0.8))[0];
 
   useEffect(() => {
@@ -348,17 +392,16 @@ const ProcessingIndicator: React.FC<{ uploading: boolean; detecting: boolean }> 
   }, []);
 
   return (
-    <Animated.View 
-      style={[
-        styles.statusContainer,
-        { transform: [{ scale: pulseAnim }] },
-      ]}
+    <Animated.View
+      style={[styles.statusContainer, { transform: [{ scale: pulseAnim }] }]}
     >
       <Text style={styles.statusText}>
         {uploading ? '📤 Uploading image...' : '🤖 Analyzing with AI...'}
       </Text>
       <Text style={styles.statusSubtext}>
-        {detecting ? 'Running AI detection model...' : 'This may take a few moments'}
+        {detecting
+          ? 'Running AI detection model...'
+          : 'This may take a few moments'}
       </Text>
     </Animated.View>
   );
@@ -395,15 +438,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#8B5CF6',
     bottom: 150,
     left: -90,
-  },  safeArea: {
+  },
+  safeArea: {
     flex: 1,
-  },  content: {
+  },
+  content: {
     flex: 1,
     paddingTop: 40,
   },
   scrollContainer: {
     flex: 1,
-  },  scrollContent: {
+  },
+  scrollContent: {
     padding: 20,
     paddingTop: 40,
   },

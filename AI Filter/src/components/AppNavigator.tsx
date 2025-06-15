@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeScreen } from '../screens/HomeScreen';
 import { UploadScreen } from '../screens/UploadScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
-import { ScreenStreamDemoScreen } from '../screens/ScreenStreamDemoScreen';
+import ScreenDetectionScreen from '../screens/ScreenDetectionScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,20 +23,22 @@ const TabIcon: React.FC<{
   </View>
 );
 
-const TabLabel: React.FC<{ label: string; color: string }> = ({ label, color }) => (
-  <Text style={[styles.tabLabel, { color }]}>{label}</Text>
-);
+const TabLabel: React.FC<{ label: string; color: string }> = ({
+  label,
+  color,
+}) => <Text style={[styles.tabLabel, { color }]}>{label}</Text>;
 
 export const AppNavigator: React.FC = () => {
   const insets = useSafeAreaInsets();
-  
+
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ color, focused }) => {
-            let iconName: keyof typeof Ionicons.glyphMap;            switch (route.name) {
+            let iconName: keyof typeof Ionicons.glyphMap;
+            switch (route.name) {
               case 'Home':
                 iconName = focused ? 'home' : 'home-outline';
                 break;
@@ -71,12 +73,14 @@ export const AppNavigator: React.FC = () => {
               tint="dark"
               style={StyleSheet.absoluteFillObject}
             />
-          ),          tabBarActiveTintColor: '#4ECDC4',
+          ),
+          tabBarActiveTintColor: '#4ECDC4',
           tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.6)',
-        })}      >
+        })}
+      >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Upload" component={UploadScreen} />
-        <Tab.Screen name="Screen" component={ScreenStreamDemoScreen} />
+        <Tab.Screen name="Screen" component={ScreenDetectionScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>

@@ -6,8 +6,7 @@ import prettier from 'eslint-plugin-prettier';
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
+    files: ['**/*.{ts,tsx}'],    languageOptions: {
       parser: typescriptParser,
       parserOptions: {
         ecmaVersion: 2021,
@@ -15,6 +14,24 @@ export default [
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        console: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        process: 'readonly',
+        fetch: 'readonly',
+        FormData: 'readonly',
+        __DEV__: 'readonly',
+        require: 'readonly',
+        global: 'readonly',
+        window: 'readonly',
+        queueMicrotask: 'readonly',
+        structuredClone: 'readonly',
+        AbortController: 'readonly',
+        self: 'readonly',
       },
     },
     plugins: {
@@ -29,8 +46,16 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-console': 'off',
     },
-  },
-  {
-    ignores: ['node_modules/**', 'assets/**', '.expo/**', 'dist/**'],
+  },  {
+    ignores: [
+      'node_modules/**', 
+      'assets/**', 
+      '.expo/**', 
+      'dist/**',
+      'android/**',
+      'ios/**',
+      'build/**',
+      '*.d.ts'
+    ],
   },
 ];

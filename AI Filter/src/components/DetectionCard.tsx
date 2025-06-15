@@ -8,7 +8,11 @@ import {
   Animated,
 } from 'react-native';
 import { DetectionResult, UploadedMedia } from '../types';
-import { formatDate, getFileTypeIcon, getConfidenceColor } from '../utils/helpers';
+import {
+  formatDate,
+  getFileTypeIcon,
+  getConfidenceColor,
+} from '../utils/helpers';
 
 interface DetectionCardProps {
   result: DetectionResult;
@@ -40,15 +44,15 @@ export const DetectionCard: React.FC<DetectionCardProps> = ({
             <Text style={styles.fileName} numberOfLines={1}>
               {fileName}
             </Text>
-            <Text style={styles.fileDate}>
-              {formatDate(result.created_at)}
-            </Text>
+            <Text style={styles.fileDate}>{formatDate(result.created_at)}</Text>
           </View>
         </View>
-          <View style={[styles.predictionBadge, { backgroundColor: predictionColor }]}>
+        <View
+          style={[styles.predictionBadge, { backgroundColor: predictionColor }]}
+        >
           {result.is_ai_generated ? (
-            <Image 
-              source={require('../../assets/bot.png')} 
+            <Image
+              source={require('../../assets/bot.png')}
               style={styles.predictionIcon}
               resizeMode="contain"
             />
@@ -64,17 +68,19 @@ export const DetectionCard: React.FC<DetectionCardProps> = ({
         <View style={styles.confidenceSection}>
           <View style={styles.confidenceHeader}>
             <Text style={styles.confidenceLabel}>Confidence Score</Text>
-            <Text style={styles.confidenceValue}>{result.confidence_level}%</Text>
+            <Text style={styles.confidenceValue}>
+              {result.confidence_level}%
+            </Text>
           </View>
           <View style={styles.progressBarContainer}>
-            <View 
+            <View
               style={[
-                styles.progressBar, 
-                { 
+                styles.progressBar,
+                {
                   width: `${result.confidence_level}%`,
-                  backgroundColor: confidenceColor 
-                }
-              ]} 
+                  backgroundColor: confidenceColor,
+                },
+              ]}
             />
           </View>
         </View>
@@ -82,9 +88,7 @@ export const DetectionCard: React.FC<DetectionCardProps> = ({
         {/* Explanation Section */}
         <View style={styles.explanationSection}>
           <Text style={styles.explanationLabel}>Analysis:</Text>
-          <Text style={styles.explanation}>
-            {result.explanation}
-          </Text>
+          <Text style={styles.explanation}>{result.explanation}</Text>
         </View>
       </View>
 
@@ -104,7 +108,8 @@ export const DetectionCard: React.FC<DetectionCardProps> = ({
   );
 };
 
-const styles = StyleSheet.create({  card: {
+const styles = StyleSheet.create({
+  card: {
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 24,
     padding: 20,
@@ -160,7 +165,8 @@ const styles = StyleSheet.create({  card: {
     shadowRadius: 8,
     elevation: 4,
     minWidth: 140,
-  },  predictionEmoji: {
+  },
+  predictionEmoji: {
     fontSize: 16,
     marginRight: 8,
   },

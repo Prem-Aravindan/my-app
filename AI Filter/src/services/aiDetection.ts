@@ -3,10 +3,12 @@ import { DetectionResult, UploadedMedia } from '../types';
 
 export class AIDetectionService {
   // Simulate AI detection - replace with actual AI service integration
-  static async detectAIContent(media: UploadedMedia): Promise<DetectionResult | null> {
+  static async detectAIContent(
+    media: UploadedMedia
+  ): Promise<DetectionResult | null> {
     try {
       // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Mock detection logic based on file type
       const mockResult = this.generateMockDetection(media);
@@ -59,7 +61,7 @@ export class AIDetectionService {
   private static generateMockDetection(media: UploadedMedia) {
     // Generate realistic mock data based on file type
     const random = Math.random();
-    
+
     let isAI: boolean;
     let confidence: number;
     let explanation: string;
@@ -68,7 +70,7 @@ export class AIDetectionService {
       case 'image':
         isAI = random > 0.6;
         confidence = Math.floor(random * 40) + 60; // 60-100%
-        explanation = isAI 
+        explanation = isAI
           ? `Detected artificial patterns in pixel structure and lighting inconsistencies typical of AI-generated images.`
           : `Natural image characteristics detected. Consistent lighting, realistic shadows, and authentic metadata.`;
         break;
@@ -100,11 +102,15 @@ export class AIDetectionService {
       default:
         isAI = false;
         confidence = 50;
-        explanation = 'Unable to determine content authenticity for this file type.';
+        explanation =
+          'Unable to determine content authenticity for this file type.';
     }
 
     return { isAI, confidence, explanation };
-  }  static async getDetectionHistory(userId: string): Promise<(DetectionResult & { uploaded_media?: any })[]> {
+  }
+  static async getDetectionHistory(
+    userId: string
+  ): Promise<(DetectionResult & { uploaded_media?: any })[]> {
     try {
       // For development/testing without proper database schema, return mock data
       if (userId === 'test-user-123') {
@@ -113,10 +119,12 @@ export class AIDetectionService {
 
       const { data, error } = await supabase
         .from(TABLES.DETECTION_RESULTS)
-        .select(`
+        .select(
+          `
           *,
           uploaded_media!inner(*)
-        `)
+        `
+        )
         .eq('uploaded_media.user_id', userId)
         .order('created_at', { ascending: false });
 
@@ -127,7 +135,8 @@ export class AIDetectionService {
       // Return mock data if database query fails
       return this.getMockDetectionHistory();
     }
-  }  private static getMockDetectionHistory(): DetectionResult[] {
+  }
+  private static getMockDetectionHistory(): DetectionResult[] {
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
@@ -140,9 +149,10 @@ export class AIDetectionService {
         media_id: 'media-1',
         is_ai_generated: true,
         confidence_level: 87,
-        explanation: 'Detected artificial patterns in pixel structure and lighting inconsistencies. The image shows telltale signs of diffusion model generation including smooth gradients and unnatural texture blending.',
+        explanation:
+          'Detected artificial patterns in pixel structure and lighting inconsistencies. The image shows telltale signs of diffusion model generation including smooth gradients and unnatural texture blending.',
         detection_method: 'DeepDetect AI v2.1',
-        created_at: now.toISOString(),        
+        created_at: now.toISOString(),
         uploaded_media: {
           id: 'media-1',
           user_id: 'test-user-123',
@@ -158,9 +168,10 @@ export class AIDetectionService {
         media_id: 'media-2',
         is_ai_generated: false,
         confidence_level: 92,
-        explanation: 'Natural image characteristics detected. Consistent lighting, realistic shadows, and authentic EXIF metadata. Camera noise patterns match expected sensor behavior.',
+        explanation:
+          'Natural image characteristics detected. Consistent lighting, realistic shadows, and authentic EXIF metadata. Camera noise patterns match expected sensor behavior.',
         detection_method: 'DeepDetect AI v2.1',
-        created_at: oneHourAgo.toISOString(),        
+        created_at: oneHourAgo.toISOString(),
         uploaded_media: {
           id: 'media-2',
           user_id: 'test-user-123',
@@ -176,9 +187,10 @@ export class AIDetectionService {
         media_id: 'media-3',
         is_ai_generated: true,
         confidence_level: 73,
-        explanation: 'AI-generated artwork detected. Neural network artifacts visible in fine details and color transitions. Synthetic texture patterns consistent with StyleGAN architecture.',
+        explanation:
+          'AI-generated artwork detected. Neural network artifacts visible in fine details and color transitions. Synthetic texture patterns consistent with StyleGAN architecture.',
         detection_method: 'DeepDetect AI v2.1',
-        created_at: oneDayAgo.toISOString(),        
+        created_at: oneDayAgo.toISOString(),
         uploaded_media: {
           id: 'media-3',
           user_id: 'test-user-123',
@@ -194,9 +206,10 @@ export class AIDetectionService {
         media_id: 'media-4',
         is_ai_generated: false,
         confidence_level: 95,
-        explanation: 'Authentic photograph confirmed. Natural chromatic aberration, proper depth of field, and organic composition. All metadata validates genuine camera capture.',
+        explanation:
+          'Authentic photograph confirmed. Natural chromatic aberration, proper depth of field, and organic composition. All metadata validates genuine camera capture.',
         detection_method: 'DeepDetect AI v2.1',
-        created_at: twoDaysAgo.toISOString(),        
+        created_at: twoDaysAgo.toISOString(),
         uploaded_media: {
           id: 'media-4',
           user_id: 'test-user-123',
@@ -212,9 +225,10 @@ export class AIDetectionService {
         media_id: 'media-5',
         is_ai_generated: true,
         confidence_level: 65,
-        explanation: 'Moderate confidence AI detection. Some artificial patterns detected but mixed with natural elements. Possible AI-enhanced or partially synthetic content.',
+        explanation:
+          'Moderate confidence AI detection. Some artificial patterns detected but mixed with natural elements. Possible AI-enhanced or partially synthetic content.',
         detection_method: 'DeepDetect AI v2.1',
-        created_at: threeDaysAgo.toISOString(),        
+        created_at: threeDaysAgo.toISOString(),
         uploaded_media: {
           id: 'media-5',
           user_id: 'test-user-123',

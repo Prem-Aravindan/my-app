@@ -1,0 +1,68 @@
+# EAS ignore file - exclude unnecessary files from build archive
+
+# Dependencies and build outputs
+node_modules/
+.git/
+.expo/
+android/build/
+android/app/build/
+ios/build/
+.DS_Store
+*.log
+*.tmp
+.vscode/
+.idea/
+coverage/
+dist/
+build/
+temp/
+tmp/
+
+# All documentation and guide files
+*.md
+!README.md
+BACKGROUND_PROCESSING_GUIDE.md
+BUILD_AND_RUN_GUIDE.md
+BUILD_STATUS.md
+IMPLEMENTATION_COMPLETE.md
+IMPLEMENTATION_GUIDE.md
+NATIVE_IMPLEMENTATION_COMPLETE.md
+QUICK_START.md
+SCREEN_RECORDING_IMPLEMENTATION.md
+SCREEN_RECORDING_README.md
+SETUP_ANDROID_DEV.md
+SUCCESS_NATIVE_COMPLETE.md
+SUCCESS_SUMMARY.md
+TESTING_GUIDE.md
+TROUBLESHOOTING.md
+
+# Scripts and batch files not needed for build
+*.bat
+*.sh
+*.ps1
+check-environment.ps1
+build-screen-recording.*
+start-server.*
+build-native.ps1
+
+# Flutter (not needed for React Native build)
+flutter_version/
+
+# Old test files and unused screens
+src/screens/UploadScreen_clean.tsx
+
+# Development tools and configs that aren't needed in build
+eslint.config.js
+.eslintrc*
+.prettierrc*
+.gitignore
+
+# Large assets that might not be needed
+# assets/large-files/
+
+# Any backup or temporary files
+*.bak
+*.backup
+*~
+.#*
+#*#

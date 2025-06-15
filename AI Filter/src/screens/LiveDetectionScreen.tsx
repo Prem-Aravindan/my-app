@@ -18,32 +18,55 @@ export const LiveDetectionScreen: React.FC = () => {
   const [currentUrl, setCurrentUrl] = useState('https://picsum.photos/800/600');
   const [isDetecting, setIsDetecting] = useState(false);
   const [showDemo, setShowDemo] = useState(true);
-  const [detectedContent, setDetectedContent] = useState<Array<{
-    id: string;
-    type: 'image' | 'video' | 'text';
-    isAI: boolean;
-    confidence: number;
-    position: { x: number; y: number };
-  }>>([]);
-  
+  const [detectedContent, setDetectedContent] = useState<
+    Array<{
+      id: string;
+      type: 'image' | 'video' | 'text';
+      isAI: boolean;
+      confidence: number;
+      position: { x: number; y: number };
+    }>
+  >([]);
+
   const webViewRef = useRef<WebView>(null);
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   const startDetection = () => {
     setIsDetecting(true);
-    
+
     // Simulate real-time detection with mock data
     const mockDetections = [
-      { id: '1', type: 'image' as const, isAI: true, confidence: 87, position: { x: 100, y: 200 } },
-      { id: '2', type: 'image' as const, isAI: false, confidence: 94, position: { x: 250, y: 350 } },
-      { id: '3', type: 'text' as const, isAI: true, confidence: 73, position: { x: 80, y: 500 } },
+      {
+        id: '1',
+        type: 'image' as const,
+        isAI: true,
+        confidence: 87,
+        position: { x: 100, y: 200 },
+      },
+      {
+        id: '2',
+        type: 'image' as const,
+        isAI: false,
+        confidence: 94,
+        position: { x: 250, y: 350 },
+      },
+      {
+        id: '3',
+        type: 'text' as const,
+        isAI: true,
+        confidence: 73,
+        position: { x: 80, y: 500 },
+      },
     ];
-    
+
     // Add detections gradually to simulate real-time analysis
     mockDetections.forEach((detection, index) => {
-      setTimeout(() => {
-        setDetectedContent(prev => [...prev, detection]);
-      }, (index + 1) * 2000);
+      setTimeout(
+        () => {
+          setDetectedContent((prev) => [...prev, detection]);
+        },
+        (index + 1) * 2000
+      );
     });
 
     // Start pulsing animation for active detection
@@ -77,7 +100,7 @@ export const LiveDetectionScreen: React.FC = () => {
     }
   };
 
-  const renderDetectionBadge = (detection: typeof detectedContent[0]) => (
+  const renderDetectionBadge = (detection: (typeof detectedContent)[0]) => (
     <View
       key={detection.id}
       style={[
@@ -85,63 +108,74 @@ export const LiveDetectionScreen: React.FC = () => {
         {
           left: detection.position.x,
           top: detection.position.y,
-          backgroundColor: detection.isAI ? 'rgba(239, 68, 68, 0.9)' : 'rgba(34, 197, 94, 0.9)',
+          backgroundColor: detection.isAI
+            ? 'rgba(239, 68, 68, 0.9)'
+            : 'rgba(34, 197, 94, 0.9)',
         },
       ]}
     >
-      <Text style={styles.badgeEmoji}>
-        {detection.isAI ? '🤖' : '👤'}
-      </Text>
-      <Text style={styles.badgeText}>
-        {detection.confidence}%
-      </Text>
+      <Text style={styles.badgeEmoji}>{detection.isAI ? '🤖' : '👤'}</Text>
+      <Text style={styles.badgeText}>{detection.confidence}%</Text>
     </View>
   );
   return (
-    <SafeAreaView style={styles.container}>      {showDemo ? (
+    <SafeAreaView style={styles.container}>
+      {' '}
+      {showDemo ? (
         <View style={styles.demoIntro}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.backButton}
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.backButtonText}>← Back</Text>
           </TouchableOpacity>
-          
+
           <View style={styles.demoContent}>
             <Text style={styles.demoTitle}>🚀 Live AI Detection Demo</Text>
             <Text style={styles.demoSubtitle}>
               Experience real-time AI content detection as you browse
             </Text>
-            
+
             <View style={styles.featureList}>
               <View style={styles.featureItem}>
                 <Text style={styles.featureEmoji}>🔍</Text>
-                <Text style={styles.featureText}>Real-time analysis of images and text</Text>
+                <Text style={styles.featureText}>
+                  Real-time analysis of images and text
+                </Text>
               </View>
               <View style={styles.featureItem}>
                 <Text style={styles.featureEmoji}>🤖</Text>
-                <Text style={styles.featureText}>AI-generated content detection</Text>
+                <Text style={styles.featureText}>
+                  AI-generated content detection
+                </Text>
               </View>
               <View style={styles.featureItem}>
                 <Text style={styles.featureEmoji}>📊</Text>
-                <Text style={styles.featureText}>Confidence scores and explanations</Text>
+                <Text style={styles.featureText}>
+                  Confidence scores and explanations
+                </Text>
               </View>
               <View style={styles.featureItem}>
                 <Text style={styles.featureEmoji}>⚡</Text>
                 <Text style={styles.featureText}>Instant overlay badges</Text>
               </View>
             </View>
-            
+
             <View style={styles.warningBox}>
               <Text style={styles.warningTitle}>⚠️ Demo Limitations</Text>
               <Text style={styles.warningText}>
-                This is a proof-of-concept demo. Real cross-app overlays would require:
+                This is a proof-of-concept demo. Real cross-app overlays would
+                require:
               </Text>
-              <Text style={styles.warningPoint}>• System-level permissions</Text>
-              <Text style={styles.warningPoint}>• Advanced screen capture APIs</Text>
+              <Text style={styles.warningPoint}>
+                • System-level permissions
+              </Text>
+              <Text style={styles.warningPoint}>
+                • Advanced screen capture APIs
+              </Text>
               <Text style={styles.warningPoint}>• Custom native modules</Text>
             </View>
-            
+
             <TouchableOpacity
               style={styles.startDemoButton}
               onPress={() => setShowDemo(false)}
@@ -154,70 +188,74 @@ export const LiveDetectionScreen: React.FC = () => {
         <>
           {/* Header */}
           <View style={styles.header}>
-        <View style={styles.urlBar}>
-          <TextInput
-            style={styles.urlInput}
-            value={url}
-            onChangeText={setUrl}
-            placeholder="Enter website URL..."
-            placeholderTextColor="rgba(255, 255, 255, 0.5)"
-            onSubmitEditing={navigateToUrl}
-          />
-          <TouchableOpacity style={styles.goButton} onPress={navigateToUrl}>
-            <Text style={styles.goButtonText}>Go</Text>
-          </TouchableOpacity>
-        </View>
-        
-        <View style={styles.controls}>
-          <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
-            <TouchableOpacity
-              style={[
-                styles.detectionButton,
-                { backgroundColor: isDetecting ? '#ef4444' : '#22c55e' }
-              ]}
-              onPress={isDetecting ? stopDetection : startDetection}
-            >
-              <Text style={styles.detectionButtonText}>
-                {isDetecting ? '⏹️ Stop Detection' : '🔍 Start Detection'}
+            <View style={styles.urlBar}>
+              <TextInput
+                style={styles.urlInput}
+                value={url}
+                onChangeText={setUrl}
+                placeholder="Enter website URL..."
+                placeholderTextColor="rgba(255, 255, 255, 0.5)"
+                onSubmitEditing={navigateToUrl}
+              />
+              <TouchableOpacity style={styles.goButton} onPress={navigateToUrl}>
+                <Text style={styles.goButtonText}>Go</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.controls}>
+              <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+                <TouchableOpacity
+                  style={[
+                    styles.detectionButton,
+                    { backgroundColor: isDetecting ? '#ef4444' : '#22c55e' },
+                  ]}
+                  onPress={isDetecting ? stopDetection : startDetection}
+                >
+                  <Text style={styles.detectionButtonText}>
+                    {isDetecting ? '⏹️ Stop Detection' : '🔍 Start Detection'}
+                  </Text>
+                </TouchableOpacity>
+              </Animated.View>
+
+              <Text style={styles.statusText}>
+                {isDetecting
+                  ? `🔴 Live Detection Active (${detectedContent.length} items detected)`
+                  : '⚪ Detection Inactive'}
               </Text>
-            </TouchableOpacity>
-          </Animated.View>
-          
-          <Text style={styles.statusText}>
-            {isDetecting 
-              ? `🔴 Live Detection Active (${detectedContent.length} items detected)`
-              : '⚪ Detection Inactive'
-            }
-          </Text>
-        </View>
-      </View>
+            </View>
+          </View>
 
-      {/* Web Content Area */}
-      <View style={styles.webContainer}>
-        <WebView
-          ref={webViewRef}
-          source={{ uri: currentUrl }}
-          style={styles.webView}
-          onLoadStart={() => console.log('Loading started')}
-          onLoadEnd={() => console.log('Loading finished')}
-          onError={(error: any) => {
-            Alert.alert('Error', 'Failed to load website. Please check the URL.');
-            console.error('WebView error:', error);
-          }}
-        />
-        
-        {/* Detection Overlays */}
-        {isDetecting && detectedContent.map(renderDetectionBadge)}
-      </View>
+          {/* Web Content Area */}
+          <View style={styles.webContainer}>
+            <WebView
+              ref={webViewRef}
+              source={{ uri: currentUrl }}
+              style={styles.webView}
+              onLoadStart={() => console.log('Loading started')}
+              onLoadEnd={() => console.log('Loading finished')}
+              onError={(error: any) => {
+                Alert.alert(
+                  'Error',
+                  'Failed to load website. Please check the URL.'
+                );
+                console.error('WebView error:', error);
+              }}
+            />
 
-      {/* Bottom Info */}
-      <View style={styles.bottomInfo}>
-        <Text style={styles.infoText}>
-          💡 This demo simulates AI content detection overlays on web content
-        </Text>        <Text style={styles.warningText}>
-          Note: Real cross-app overlays require system-level permissions
-        </Text>
-      </View>
+            {/* Detection Overlays */}
+            {isDetecting && detectedContent.map(renderDetectionBadge)}
+          </View>
+
+          {/* Bottom Info */}
+          <View style={styles.bottomInfo}>
+            <Text style={styles.infoText}>
+              💡 This demo simulates AI content detection overlays on web
+              content
+            </Text>{' '}
+            <Text style={styles.warningText}>
+              Note: Real cross-app overlays require system-level permissions
+            </Text>
+          </View>
         </>
       )}
     </SafeAreaView>
@@ -328,12 +366,14 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     marginBottom: 4,
-  },  warningText: {
+  },
+  warningText: {
     color: 'rgba(255, 255, 255, 0.6)',
     fontSize: 12,
     textAlign: 'center',
     fontStyle: 'italic',
-  },  demoIntro: {
+  },
+  demoIntro: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
