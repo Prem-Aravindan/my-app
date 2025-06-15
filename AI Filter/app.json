@@ -30,7 +30,9 @@
       ],
       [
         "expo-document-picker"
-      ]
+      ],
+      "react-native-permissions",
+      "react-native-edge-to-edge"
     ],
     "ios": {
       "supportsTablet": true,
