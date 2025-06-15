@@ -31,7 +31,16 @@
       [
         "expo-document-picker"
       ],
-      "react-native-permissions",
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": [
+            "Camera",
+            "PhotoLibrary",
+            "Microphone"
+          ]
+        }
+      ],
       "react-native-edge-to-edge"
     ],
     "ios": {
