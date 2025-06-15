@@ -1,0 +1,70 @@
+{
+  "expo": {
+    "name": "AI Filter",
+    "slug": "ai-filter-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/bot.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you upload content for AI detection.",
+          "cameraPermission": "The app accesses your camera to let you take photos for AI detection."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "The app accesses your photos to let you upload content for AI detection.",
+          "savePhotosPermission": "The app saves detection results to your photo library."
+        }
+      ],
+      [
+        "expo-document-picker"
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to upload images for AI content detection.",
+        "NSCameraUsageDescription": "This app needs access to your camera to take photos for AI content detection.",
+        "RPBroadcastUsageDescription": "This app uses screen recording to detect AI-generated content across social media apps."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.aifilterapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
