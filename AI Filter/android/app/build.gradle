@@ -87,7 +87,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.aifilterapp'
+    namespace "com.aifilter"
     defaultConfig {
         applicationId 'com.anonymous.aifilterapp'
         minSdkVersion rootProject.ext.minSdkVersion
